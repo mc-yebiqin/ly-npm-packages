@@ -1,2 +1,15 @@
-// export * from "./types";
-export * from "./utils";
+import * as nodeUtils from "./node";
+import * as markUtils from "./mark";
+import * as pluginUtils from "./plugin";
+import * as commonUtils from "./common";
+
+const PMUtils = {
+  ...nodeUtils,
+  ...markUtils,
+  ...pluginUtils,
+  ...commonUtils,
+};
+
+export default PMUtils;
+
+PMUtils.createPluginElement
