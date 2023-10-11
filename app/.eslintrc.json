@@ -1,0 +1,55 @@
+{
+  "env": {
+    "browser": true,
+    "es2021": true
+  },
+  "extends": [
+    "eslint:recommended",
+    "plugin:react/recommended",
+    "plugin:react/jsx-runtime",
+    "eslint:recommended",
+    "standard",
+    "prettier"
+  ],
+  "ignorePatterns": ["**/node_modules/**", "**/dist/**", "**/umirc.ts"],
+  "parser": "@typescript-eslint/parser",
+  "parserOptions": {
+    "ecmaFeatures": {
+      "jsx": true
+    },
+    "ecmaVersion": 12,
+    "sourceType": "module"
+  },
+  "plugins": [
+    "react",
+    "@typescript-eslint",
+    "unused-imports",
+    "prettier",
+    "jsx-a11y",
+    "react-hooks"
+  ],
+  "rules": {
+    "unused-imports/no-unused-imports": "error",
+    "unused-imports/no-unused-vars": [
+      "warn",
+      {
+        "vars": "all",
+        "varsIgnorePattern": "^_",
+        "args": "after-used",
+        "argsIgnorePattern": "^_"
+      }
+    ],
+    "react/jsx-uses-react": "error",
+    "react/jsx-uses-vars": "error",
+    "react/jsx-uses-react": "off",
+    "react/jsx-uses-vars": "off",
+    "camelcase": "off",
+    "react/display-name": "off",
+    "no-use-before-define": "off",
+    "no-undef": "off",
+    "react/prop-types": "off",
+    "no-irregular-whitespace": "off",
+    "no-misleading-character-class": "off",
+    "n/no-callback-literal": "off"
+  }
+}

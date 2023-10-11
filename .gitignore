@@ -1,0 +1,32 @@
+# dependencies
+/*.log
+/yarn.lock
+/node_modules
+/pnpm-lock.yaml
+/package-lock.json
+/examples/yarn.lock
+/examples/node_modules
+/packages/*/node_modules
+/packages/*/package-lock.json
+/.pnpm-debug.log
+# bundle files
+/es
+/lib
+/docs-dist
+/packages/*/dist
+
+# misc
+.DS_Store
+
+# umi
+.umi
+.umi-test
+.umi-production
+.env.local
+
+# ide
+/.idea
+/.vscode
+
+# coverage
+/coverage
