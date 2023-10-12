@@ -4,6 +4,7 @@
     "outDir": "dist",
     "target": "ES2020",
     "module": "esnext",
+    "baseUrl": ".",
     "strict": true,
     "declaration": true,
     "skipLibCheck": true,
@@ -12,6 +13,7 @@
     "forceConsistentCasingInFileNames": true,
     "paths": {
       "@/*": ["./src/*"]
-    }
-  }
+    },
+  },
+  "include": ["src/**/*", "rollup.config.ts"],
 }

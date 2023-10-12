@@ -1,5 +1,5 @@
-import ReactDOM from "react-dom";
-import { createElement } from "react";
+import  React from "react";
+import { render,unmountComponentAtNode } from "react-dom";
 
 import { PluginElement } from "./typescript";
 
@@ -24,14 +24,14 @@ export function createPluginElement(
   // 创建外层元素
   const pluginWrapper: PluginElement = document.createElement("div");
   // 定义销毁方法，用于在需要时卸载组件
-  pluginWrapper.destroy = () => ReactDOM.unmountComponentAtNode(pluginWrapper);
+  pluginWrapper.destroy = () => unmountComponentAtNode(pluginWrapper);
   pluginWrapper.className = "plugin-wrapper";
   // 添加用户指定的类名
   if (className) pluginWrapper.classList.add(className);
   containerRef.appendChild(pluginWrapper);
 
   // 创建内层元素，并将其挂载到外层元素上
-  const pluginComp = createElement(Component, {
+  const pluginComp = React.createElement(Component, {
     ...props,
     // 将外层元素的引用传递给组件，以便在组件中获取外层元素的引用
     ref: (refObj) => {
@@ -40,7 +40,7 @@ export function createPluginElement(
   });
 
   // 将 React 组件渲染到外层元素上
-  ReactDOM.render(pluginComp, pluginWrapper);
+  render(pluginComp, pluginWrapper);
 
   // 返回创建的插件元素
   return pluginWrapper;
