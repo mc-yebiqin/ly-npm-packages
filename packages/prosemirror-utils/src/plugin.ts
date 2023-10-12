@@ -1,7 +1,8 @@
 import ReactDOM from "react-dom";
 import { createElement } from "react";
 
-import { CreateConfig, PluginElement } from "./typescript";
+import { PluginElement } from "./typescript";
+
 /**
  * 创建一个插件元素并将其挂载到指定的容器上。
  * @param {HTMLElement} container - 插件元素的容器，如果为 null 或 undefined，则默认挂载到 document.body 上。
@@ -14,19 +15,17 @@ export function createPluginElement(
   Component: React.ForwardRefExoticComponent<
     Pick<any, string | number | symbol> & React.RefAttributes<any>
   >,
-  config?: CreateConfig
+  className: string,
+  props?: any
 ): PluginElement {
   // 如果容器为 null 或 undefined，则默认挂载到 document.body 上
   const containerRef = container ?? document.body;
-
-  // 从配置项中提取 className 和其他属性
-  const { className = "", ...props } = config || {};
 
   // 创建外层元素
   const pluginWrapper: PluginElement = document.createElement("div");
   // 定义销毁方法，用于在需要时卸载组件
   pluginWrapper.destroy = () => ReactDOM.unmountComponentAtNode(pluginWrapper);
-  pluginWrapper.className = "plugin_wrapper";
+  pluginWrapper.className = "plugin-wrapper";
   // 添加用户指定的类名
   if (className) pluginWrapper.classList.add(className);
   containerRef.appendChild(pluginWrapper);

@@ -15,11 +15,6 @@ export type CalculatePositionProps = {
   offset?: [number, number];
 };
 
-export interface CreateConfig extends HTMLAttributes<HTMLElement> {
-  className?: string;
-  [others: string]: any;
-}
-
 export interface PluginElement extends HTMLDivElement {
   destroy?: () => void;
   mountedRef?: any;
