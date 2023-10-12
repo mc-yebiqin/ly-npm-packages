@@ -10,6 +10,6 @@ const PMUtils = {
   ...commonUtils,
 };
 
-export default PMUtils;
+export * from "./typescript";
 
-PMUtils.createPluginElement
+export default PMUtils;
