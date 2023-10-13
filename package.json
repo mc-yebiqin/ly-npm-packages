@@ -6,7 +6,7 @@
   "version": "1.0.0",
   "scripts": {
     "dev": "pnpm --filter=./app dev",
-    "clean": "rimraf node_modules && rimraf docs/node_modules && rimraf packages/*/node_modules && rimraf app/*/node_modules",
+    "clean": "rimraf node_modules  && rimraf packages/*/node_modules && rimraf app/node_modules",
     "docs:theme": "pnpm --filter=./docs theme",
     "build:design": "pnpm --filter=./packages/rc-design build"
   },

@@ -1,6 +1,11 @@
+import HomePageMain from "./_components";
+
 function HomePage() {
-  PMUtils
-  return <main>Hello Word</main>;
+  return (
+    <main>
+      <HomePageMain />
+    </main>
+  );
 }
 
 export default HomePage;

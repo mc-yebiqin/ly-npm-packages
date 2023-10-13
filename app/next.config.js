@@ -5,7 +5,7 @@ const nextConfig = {
   sassOptions: {
     includePaths: [path.join(__dirname, "styles")],
   },
-  transpilePackages: ["@doc/domain"],
+  transpilePackages: ["laoye-prosemirror-dev", "laoye-prosemirror-utils"],
 };
 
 module.exports = nextConfig;

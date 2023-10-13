@@ -1,18 +1,34 @@
 {
-  "name": "laoye-prosemirror-utils",
+  "name": "laoye-prosemirror-dev",
   "author": "BiQin Ye",
   "license": "ISC",
   "version": "1.0.0",
   "description": "Dev tools for prosemirror",
   "type": "module",
-  "private": true,
+  "files": [
+    "dist"
+  ],
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.umd.cjs"
+    }
+  },
   "scripts": {
     "dev": "vite",
-    "build": "tsc && vite build",
-    "preview": "vite preview"
+    "build": "vite build && tsc",
+    "preview": "vite preview",
+    "start:publish": "npm run build && npm publish"
+  },
+  "dependencies": {
+    "zustand": "^4.4.3",
+    "react-json-tree": "^0.18.0"
   },
   "devDependencies": {
+    "vite": "^4.4.5",
     "typescript": "^5.0.2",
-    "vite": "^4.4.5"
-  }
+    "rollup-plugin-visualizer": "^5.9.2"
+  },
+  "peerDependencies": {}
 }
