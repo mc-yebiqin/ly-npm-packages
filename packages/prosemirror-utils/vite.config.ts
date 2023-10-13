@@ -6,7 +6,7 @@ export default defineConfig({
   build: {
     lib: {
       // 这是你的函数库的名称，它将作为全局变量暴露出去
-      name: "MyLib",
+      name: "PMUtils",
       // 这里是你的 JavaScript 函数库入口文件的路径
       entry: resolve(__dirname, "src/index.ts"),
       // the proper extensions will be added
