@@ -10,7 +10,7 @@ export default defineConfig({
       // 这里是你的 JavaScript 函数库入口文件的路径
       entry: resolve(__dirname, "src/index.ts"),
       // the proper extensions will be added
-      fileName: "my-lib",
+      fileName: "index",
     },
     rollupOptions: {
       // 确保外部化处理那些你不想打包进库的依赖

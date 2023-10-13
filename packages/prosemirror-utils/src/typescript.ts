@@ -1,4 +1,3 @@
-import { HTMLAttributes } from "react";
 import { EditorView } from "prosemirror-view";
 
 /** 参数用于计算坐标位置的对象 */

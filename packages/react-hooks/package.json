@@ -5,14 +5,27 @@
   "version": "1.0.0",
   "description": "Hooks utils for react",
   "type": "module",
+  "files": [
+    "dist"
+  ],
+  "main": "./dist/my-lib.umd.cjs",
+  "module": "./dist/my-lib.js",
+  "exports": {
+    ".": {
+      "import": "./dist/my-lib.js",
+      "require": "./dist/my-lib.umd.cjs"
+    }
+  },
   "private": true,
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
     "preview": "vite preview"
   },
+  "dependencies": {},
   "devDependencies": {
-    "vite": "^4.4.5",
-    "typescript": "^5.0.2"
+    "rollup-plugin-visualizer": "^5.9.2",
+    "typescript": "^5.0.2",
+    "vite": "^4.4.5"
   }
 }
