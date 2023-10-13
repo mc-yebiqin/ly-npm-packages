@@ -1,0 +1,18 @@
+{
+  "name": "laoye-react-hooks",
+  "author": "BiQin Ye",
+  "license": "ISC",
+  "version": "1.0.0",
+  "description": "Hooks utils for react",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "preview": "vite preview"
+  },
+  "devDependencies": {
+    "vite": "^4.4.5",
+    "typescript": "^5.0.2"
+  }
+}

@@ -9,7 +9,6 @@ import { terser } from "rollup-plugin-terser";
 export default [
   {
     input: "./src/index.ts",
-    external: ["aws-sdk/clients/s3", "aws-sdk/clients/kinesis"],
     output: [
       {
         dir: "dist",
