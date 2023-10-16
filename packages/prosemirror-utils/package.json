@@ -2,7 +2,7 @@
   "name": "laoye-prosemirror-utils",
   "author": "BiQin Ye",
   "license": "ISC",
-  "version": "1.1.5",
+  "version": "1.1.6",
   "description": "Utils library for prosemirror",
   "type": "module",
   "files": [

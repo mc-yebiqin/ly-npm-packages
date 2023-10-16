@@ -3,7 +3,7 @@ import * as markUtils from "./mark";
 import * as pluginUtils from "./plugin";
 import * as commonUtils from "./common";
 
-const PMUtils = {
+export const PMUtils = {
   ...nodeUtils,
   ...markUtils,
   ...pluginUtils,

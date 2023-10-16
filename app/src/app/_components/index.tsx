@@ -3,13 +3,11 @@
 import React, { forwardRef, memo, useEffect, useImperativeHandle, useState } from "react";
 import PMUtils from "laoye-prosemirror-utils";
 
-const A = forwardRef((props, ref) => {
+interface ContainerRef {
+  active: boolean;
+}
+const A = forwardRef<ContainerRef, any>((props, ref) => {
   const [active, setActive] = useState(false);
-  console.log(
-    "%c >>>>> active -8",
-    "font-size:13px; background:pink; color:#000;",
-    active
-  );
 
   const handleClick = () => {
     setActive(!active);
@@ -30,6 +28,9 @@ const HomePageMain = () => {
   useEffect(() => {
     const pluginView = PMUtils.createPluginView(document.body, A);
     setPluginView(pluginView);
+    return () => {
+      pluginView.unmount();
+    };
   }, []);
 
   const handleClick = () => {

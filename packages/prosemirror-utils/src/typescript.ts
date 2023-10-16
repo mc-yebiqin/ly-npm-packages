@@ -4,11 +4,6 @@ export interface PluginView {
   unmount(): void;
 }
 
-export interface PluginConfigs {
-  className?: string;
-  [props: string]: any;
-}
-
 /** 参数用于计算坐标位置的对象 */
 export type CalculatePositionProps = {
   /** 要计算的位置 */
