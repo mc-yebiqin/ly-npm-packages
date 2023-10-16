@@ -2,8 +2,8 @@ import React, { memo } from "react";
 
 import styles from "./index.module.scss";
 import TabItem from "./TabItem";
-import TabStructure from "./TabStructure";
-import EditorViewSelector from "./EditorViewSelector";
+import { TabStructure } from "./TabPanels";
+import PanelSelector from "./PanelSelector";
 import { TabKeys, toolsDomain } from "../domain";
 
 const TABS_CONFIG = [
@@ -39,7 +39,7 @@ const ExpandedContainer = () => {
         <div className={styles.container_action}>
           <TabItem item={TAB_SLOT} />
 
-          <EditorViewSelector />
+          <PanelSelector />
 
           <div className={styles.container_close} onClick={handleCloseEvt}>
             x

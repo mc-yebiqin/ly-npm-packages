@@ -1,9 +1,9 @@
-import HomePageMain from "./_components";
+import { PluginDemo, EditorDemo } from "./_components";
 
 function HomePage() {
   return (
     <main>
-      <HomePageMain />
+      <EditorDemo />
     </main>
   );
 }

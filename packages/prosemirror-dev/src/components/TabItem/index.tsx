@@ -1,5 +1,5 @@
 import React, { memo } from "react";
-import { useToolsDomain } from "../domain";
+import { useToolsDomain } from "../../domain";
 import styles from "./index.module.scss";
 
 const TabItem = ({ item }: any) => {

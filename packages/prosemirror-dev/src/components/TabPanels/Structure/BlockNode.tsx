@@ -3,7 +3,7 @@ import { Node } from "prosemirror-model";
 
 import styles from "./index.module.scss";
 import BlockContents from "./BlockContents";
-import { toolsDomain } from "../../domain";
+import { toolsDomain } from "../../../domain";
 
 type BlockNodeProps = {
   node: Node;
@@ -13,7 +13,7 @@ const BlockNode = ({ node, from }: BlockNodeProps) => {
   const to = from + node.nodeSize;
 
   const handleClickEvt = () => {
-    node.pos = from;
+    Object.assign(node, { pos: from });
     toolsDomain.set({ selectNode: node });
   };
 

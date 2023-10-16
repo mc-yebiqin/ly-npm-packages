@@ -24,12 +24,16 @@ class ToolsDomain extends Store<DomainState> {
     this.set({ views: [...this.state.views, view] });
   }
 
-  switchView(view: ViewTool) {
+  switchView(view?: ViewTool) {
+    const { views } = this.state;
+
+    const newView = view ?? views[0] ?? null;
+
     toolsDomain.set({
-      view: view || null,
+      view: newView,
       colorsMap: new Map(),
       selectNode: null,
-      updateState: view?.state || null,
+      updateState: newView?.state || null,
     });
   }
 
@@ -44,7 +48,7 @@ class ToolsDomain extends Store<DomainState> {
     return colorTheme;
   }
 
-  destroyView(id: number) {
+  destroyView(id: string) {
     const { views } = this.state;
     const newViews = views.filter((view) => view.id === id);
     this.set({ views: newViews });

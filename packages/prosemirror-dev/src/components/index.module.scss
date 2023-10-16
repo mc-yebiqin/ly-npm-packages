@@ -33,7 +33,7 @@
   user-select: none;
   flex-direction: column;
   background-color: #2c2d2f;
-  
+
   :global {
     button {
       color: rgba(255, 255, 255, 0.6);
@@ -87,20 +87,5 @@
     flex: 1;
     height: min-content;
     overflow: hidden;
-  }
-
-  .tab_item {
-    cursor: pointer;
-    position: relative;
-    font-size: 16px;
-
-    &:hover {
-      color: white;
-    }
-
-    &[data-active="true"] {
-      color: white;
-      font-weight: 700;
-    }
   }
 }

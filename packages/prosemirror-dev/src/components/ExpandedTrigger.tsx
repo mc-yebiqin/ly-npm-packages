@@ -2,7 +2,7 @@ import React, { memo } from "react";
 import styles from "./index.module.scss";
 import { toolsDomain } from "../domain";
 
-const CollapsedButton = () => {
+const ExpandedTrigger = () => {
   const handleOpenEvt = () => toolsDomain.set({ isOpen: true });
 
   return (
@@ -12,4 +12,4 @@ const CollapsedButton = () => {
   );
 };
 
-export default memo(CollapsedButton);
+export default memo(ExpandedTrigger);

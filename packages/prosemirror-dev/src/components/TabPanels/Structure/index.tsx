@@ -4,7 +4,7 @@ import { EditorState } from "prosemirror-state";
 
 import styles from "./index.module.scss";
 import BlockNode from "./BlockNode";
-import { TabKeys, toolsDomain, useToolsDomain } from "../../domain";
+import { TabKeys, toolsDomain, useToolsDomain } from "../../../domain";
 import NodeDetail from "./NodeDetail";
 
 type ContainerProps = {
@@ -37,12 +37,10 @@ const StructurePanel = ({ state }: ContainerProps) => {
   );
 };
 
-const TabStructure = () => {
+export const TabStructure = memo(() => {
   const isActive = useToolsDomain((state) => state.activeTab === TabKeys.Structure);
   const updateState = useToolsDomain((state) => state.updateState);
 
   const isRender = isActive && updateState;
   return isRender ? <StructurePanel state={updateState} /> : null;
-};
-
-export default memo(TabStructure);
+});

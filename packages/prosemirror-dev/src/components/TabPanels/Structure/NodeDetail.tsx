@@ -1,8 +1,8 @@
 import React, { memo, useEffect } from "react";
 import { JSONTree } from "react-json-tree";
 
-import { jsonTheme } from "../../styles";
-import { useToolsDomain } from "../../domain";
+import { jsonTheme } from "../../../styles";
+import { useToolsDomain } from "../../../domain";
 
 let timer: any;
 let activeElement: HTMLElement;
@@ -16,7 +16,11 @@ const NodeDetail = () => {
       const dom = view.domAtPos(node.pos)?.node as any;
       const element = dom?.offsetParent || dom?.parentElement.offsetParent;
       if (element) {
-        element.scrollIntoView?.({ behavior: "smooth", block: "center", inline: "nearest" });
+        element.scrollIntoView?.({
+          behavior: "smooth",
+          block: "center",
+          inline: "nearest",
+        });
 
         clearTimeout(timer);
         activeElement?.classList.remove("anchor-point");
@@ -34,7 +38,7 @@ const NodeDetail = () => {
       data={node?.toJSON() || {}}
       theme={jsonTheme}
       invertTheme={false}
-      shouldExpandNode={() => true}
+      shouldExpandNodeInitially={() => true}
     />
   );
 };

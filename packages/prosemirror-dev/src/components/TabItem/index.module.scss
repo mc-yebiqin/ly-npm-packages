@@ -1,0 +1,14 @@
+.tab_item {
+  cursor: pointer;
+  position: relative;
+  font-size: 16px;
+
+  &:hover {
+    color: white;
+  }
+
+  &[data-active="true"] {
+    color: white;
+    font-weight: 700;
+  }
+}
