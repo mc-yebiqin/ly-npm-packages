@@ -1,0 +1,41 @@
+{
+  "name": "laoye-npm-packages",
+  "author": "BiQin Ye",
+  "private": true,
+  "license": "MIT",
+  "version": "1.0.0",
+  "scripts": {
+    "dev": "pnpm --filter=./app dev",
+    "clean": "rimraf node_modules  && rimraf packages/*/node_modules && rimraf app/node_modules",
+    "docs:theme": "pnpm --filter=./docs theme",
+    "build:design": "pnpm --filter=./packages/rc-design build"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "@types/node": "20.3.3",
+    "@types/react": "18.2.14",
+    "@types/react-dom": "18.2.6",
+    "classnames": "^2.3.2",
+    "css-loader": "^6.8.1",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-intl": "^6.4.7",
+    "sass-loader": "^13.3.2",
+    "style-loader": "^3.3.3",
+    "typescript": "^5.2.2",
+    "zustand": "^4.3.7",
+    "esbuild": "^0.19.4",
+    "prosemirror-view": "^1.32.0",
+    "prosemirror-model": "^1.19.3",
+    "prosemirror-state": "^1.4.3",
+    "prosemirror-transform": "^1.8.0",
+    "rollup-plugin-babel": "^4.4.0",
+    "rollup-plugin-terser": "^7.0.2",
+    "@rollup/plugin-json": "^6.0.1",
+    "@rollup/plugin-alias": "^5.0.1",
+    "@rollup/plugin-commonjs": "^25.0.5",
+    "@rollup/plugin-typescript": "^11.1.5",
+    "@rollup/plugin-node-resolve": "^15.2.3"
+  },
+  "peerDependencies": {}
+}

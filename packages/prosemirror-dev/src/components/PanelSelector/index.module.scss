@@ -1,0 +1,46 @@
+.selector {
+  color: black;
+  position: relative;
+
+  .selector_value {
+    height: 24px;
+    cursor: pointer;
+    display: flex;
+    padding: 0px 6px;
+    min-width: 150px;
+    align-items: center;
+    border-radius: 4px;
+    background-color: white;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
+
+  .selector_options {
+    top: 100%;
+    left: 0px;
+    position: absolute;
+    width: max-content;
+    cursor: pointer;
+    margin-top: 4px;
+    max-height: 240px;
+    overflow-x: hidden;
+    border-radius: 4px;
+    background-color: white;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+
+    .option_item {
+      padding: 4px 6px;
+
+      &:hover {
+        background-color: rgba(0, 0, 0, 0.08);
+      }
+      &[data-active="true"] {
+        color: dodgerblue;
+        font-weight: bold;
+      }
+    }
+  }
+}
