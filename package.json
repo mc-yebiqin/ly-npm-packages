@@ -10,7 +10,8 @@
     "docs:theme": "pnpm --filter=./docs theme",
     "build:design": "pnpm --filter=./packages/rc-design build"
   },
-  "dependencies": {
+  "dependencies": {},
+  "devDependencies": {
     "@types/node": "20.3.3",
     "@types/react": "18.2.14",
     "@types/react-dom": "18.2.6",
@@ -35,5 +36,6 @@
     "@rollup/plugin-commonjs": "^25.0.5",
     "@rollup/plugin-typescript": "^11.1.5",
     "@rollup/plugin-node-resolve": "^15.2.3"
-  }
+  },
+  "peerDependencies": {}
 }
