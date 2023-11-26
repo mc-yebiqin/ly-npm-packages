@@ -1,5 +1,5 @@
 import React, { createContext, memo, useContext, useMemo } from "react";
-import { convertToCssVars } from "utilities/index";
+import { convertToCssVars } from "../utilities";
 
 export const ThemeContext = createContext({});
 

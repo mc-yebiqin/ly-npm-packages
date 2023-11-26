@@ -1,11 +1,7 @@
-import { PluginDemo, EditorDemo } from "./_components";
+import { ThemeDemo } from "./_components";
 
 function HomePage() {
-  return (
-    <main>
-      <EditorDemo />
-    </main>
-  );
+  return <ThemeDemo>测试</ThemeDemo>;
 }
 
 export default HomePage;
