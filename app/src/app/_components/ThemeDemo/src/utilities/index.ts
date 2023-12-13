@@ -3,16 +3,26 @@ export const convertToCssVars = (customTheme: any) => {
   const theme = customTheme;
 
   const flatTokens = flattenTokens(theme);
+
+  const { themeTokens, themeCSSVars } = extractCSSVars(flatTokens);
+
   console.log(
-    "%c >>>>> flatTokens -6",
+    "%c >>>>> themeTokens -12",
     "font-size:13px; background:pink; color:#000;",
-    flatTokens
+    themeTokens
+  );
+
+  console.log(
+    "%c >>>>> themeCSSVars -14",
+    "font-size:13px; background:pink; color:#000;",
+    themeCSSVars
   );
 
   return theme;
 };
 
 // -------------------------------------
+
 export function flattenTokens(theme: any) {
   const result: any = {};
 
@@ -23,6 +33,7 @@ export function flattenTokens(theme: any) {
 
   return result;
 }
+
 // -------------------------------------
 
 const isObject = (value: Record<string, any>) => {
@@ -48,3 +59,23 @@ export const walkObject = <T, K>(target: T, predicate: Predicate<K>) => {
 
   return inner(target);
 };
+
+// -------------------------------------
+
+export const extractCSSVars = (flatTokens: any) => {
+  const themeTokens: any = {};
+  const themeCSSVars: any = {};
+
+  for (const token in flatTokens) {
+    if (Object.prototype.hasOwnProperty.call(flatTokens, token)) {
+      const value = flatTokens[token];
+      const cssVar = `--${token}`;
+      themeTokens[token] = `var(${cssVar})`;
+      themeCSSVars[cssVar] = value;
+    }
+  }
+
+  return { themeTokens, themeCSSVars };
+};
+
+// -------------------------------------
