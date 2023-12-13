@@ -6,6 +6,7 @@ const nextConfig = {
     includePaths: [path.join(__dirname, "styles")],
   },
   transpilePackages: [
+    "laoye-react-hooks",
     "laoye-prosemirror-dev",
     "laoye-prosemirror-utils",
     "laoye-react-component_design",

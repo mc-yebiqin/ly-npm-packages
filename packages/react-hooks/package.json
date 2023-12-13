@@ -8,11 +8,12 @@
   "files": [
     "dist"
   ],
-  "main": "./dist/my-lib.umd.cjs",
+  "main": "./src",
+  "main_dist": "./dist/my-lib.umd.cjs",
   "module": "./dist/my-lib.js",
   "exports": {
     ".": {
-      "import": "./dist/my-lib.js",
+      "import": "./src",
       "require": "./dist/my-lib.umd.cjs"
     }
   },
