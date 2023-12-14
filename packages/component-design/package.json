@@ -8,10 +8,14 @@
   "files": [
     "dist"
   ],
+  "main": "./src",
+  "main_dist": "./dist/my-lib.umd.cjs",
+  "module": "./dist/my-lib.js",
   "exports": {
     ".": {
+      "import": "./src",
       "types": "./dist/index.d.ts",
-      "import": "./dist/index.js",
+      "import_dist": "./dist/index.js",
       "require": "./dist/index.umd.cjs"
     }
   },

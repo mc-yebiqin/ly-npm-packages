@@ -1,34 +1,16 @@
 "use client";
 
-import { ChangeEvent, useCallback, useEffect, useMemo, useState } from "react";
-import { ThemeDemo } from "./_components";
+import { ChangeEvent, useCallback, useState } from "react";
+import { theme } from "laoye-react-component_design";
 
-import { useMemoizedData, useMemoizedFn } from "laoye-react-hooks";
-
-const Demo = ({ custom }: any) => {
-  const test = useMemoizedData(custom);
-
-  useEffect(() => {
-    console.log(
-      "%c >>>>> useEffect -23",
-      "font-size:13px; background:pink; color:#000;",
-      test
-    );
-  }, [test]);
-
-  return (
-    <div
-      onClick={() => {
-        console.log(
-          "%c >>>>> useEffect -23",
-          "font-size:13px; background:pink; color:#000;",
-          test
-        );
-      }}
-    >
-      Demo
-    </div>
+const Demo = () => {
+  console.log(
+    "%c >>>>> theme -10",
+    "font-size:13px; background:pink; color:#000;",
+    theme
   );
+
+  return <div>Demo</div>;
 };
 
 function HomePage() {
@@ -40,12 +22,12 @@ function HomePage() {
   }, []);
 
   return (
-    <ThemeDemo>
+    <div>
       <input type="text" onChange={handleChange} />
 
-      <Demo custom={{ color: "white", background: status ? "red" : "blue" }} />
+      <Demo />
       <div onClick={() => setStatus(!status)}>切换</div>
-    </ThemeDemo>
+    </div>
   );
 }
 

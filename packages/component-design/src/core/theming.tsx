@@ -1,5 +1,4 @@
-import React, { createContext, memo, useContext, useMemo } from "react";
-import { convertToCssVars } from "utilities/index";
+import React, { createContext, memo, useContext } from "react";
 
 export const ThemeContext = createContext({});
 
@@ -8,9 +7,7 @@ if (process.env.NODE_ENV !== "production") ThemeContext.displayName = "LaoYeThem
 export const useTheme = () => useContext(ThemeContext);
 
 export const ThemeProvider = memo((props: any) => {
-  const { theme, children } = props;
+  const { children } = props;
 
-  const computedTheme = useMemo(() => convertToCssVars(theme), [theme]);
-
-  return <ThemeContext.Provider value={computedTheme}>{children}</ThemeContext.Provider>;
+  return <ThemeContext.Provider value={{}}>{children}</ThemeContext.Provider>;
 });

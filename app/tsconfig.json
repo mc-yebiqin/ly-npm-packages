@@ -24,7 +24,8 @@
       "@/*": ["./src/*"],
       "laoye-react-hooks": ["./node_modules/laoye-react-hooks"],
       "laoye-prosemirror-dev": ["./node_modules/laoye-prosemirror-dev"],
-      "laoye-prosemirror-utils": ["./node_modules/laoye-prosemirror-utils"]
+      "laoye-prosemirror-utils": ["./node_modules/laoye-prosemirror-utils"],
+      "laoye-react-component_design": ["./node_modules/laoye-react-component_design"]
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],

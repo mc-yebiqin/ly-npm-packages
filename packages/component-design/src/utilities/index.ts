@@ -1,36 +1,18 @@
-// 将主题对象转化为CSS变量
-export const convertToCssVars = (customTheme: any) => {
-  console.log(
-    "%c >>>>> convertToCssVars -3",
-    "font-size:13px; background:pink; color:#000;"
-  );
-  const theme = customTheme;
+export function createNestedObject(base: any, path: string, value: any) {}
 
-  const flatTokens = flattenTokens(theme);
+export function flattenTokens(themeSpec: any) {
+  const themeVars: any = {};
+  const themeToken: any = {};
 
-  const cssTokenVars = extractCSSVars(flatTokens);
-
-  console.log(
-    "%c >>>>> flatTokens -6",
-    "font-size:13px; background:pink; color:#000;",
-    flatTokens,
-    cssTokenVars
-  );
-
-  return theme;
-};
-
-// -------------------------------------
-
-export function flattenTokens(theme: any) {
-  const result: any = {};
-
-  walkObject(theme, (value, path) => {
+  walkObject(themeSpec, (value, paths) => {
     if (value == null) return;
-    result[path.join(".")] = value;
+    const token = paths.join(".");
+
+    const cssStyleVar = `--${token}`;
+    const cssTokenVar = `var(${cssStyleVar})`;
   });
 
-  return result;
+  return themeToken;
 }
 
 // -------------------------------------
@@ -62,20 +44,19 @@ export const walkObject = <T, K>(target: T, predicate: Predicate<K>) => {
 // -------------------------------------
 
 export const extractCSSVars = (flatTokens: any) => {
-  const tempCSSvars: any = {};
+  const themeTokens: any = {};
+  const themeCSSVars: any = {};
+
   for (const token in flatTokens) {
     if (Object.prototype.hasOwnProperty.call(flatTokens, token)) {
       const value = flatTokens[token];
-      console.log(
-        "%c >>>>> token -65",
-        "font-size:13px; background:pink; color:#000;",
-        token,
-        value
-      );
-      tempCSSvars[`--${token}`] = value;
+      const cssVar = `--${token}`;
+      themeTokens[token] = `var(${cssVar})`;
+      themeCSSVars[cssVar] = value;
     }
   }
-  return tempCSSvars;
+
+  return { themeTokens, themeCSSVars };
 };
 
 // -------------------------------------
