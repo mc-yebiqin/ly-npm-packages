@@ -8,12 +8,12 @@
   "files": [
     "dist"
   ],
-  "main": "./src",
+  "main": "./",
   "main_dist": "./dist/my-lib.umd.cjs",
   "module": "./dist/my-lib.js",
   "exports": {
     ".": {
-      "import": "./src",
+      "import": "./",
       "types": "./dist/index.d.ts",
       "import_dist": "./dist/index.js",
       "require": "./dist/index.umd.cjs"
@@ -25,7 +25,9 @@
     "preview": "vite preview",
     "start:publish": "npm run build && npm publish"
   },
-  "dependencies": {},
+  "dependencies": {
+    "react-fast-compare": "^3.2.2"
+  },
   "devDependencies": {
     "vite": "^4.4.5",
     "typescript": "^5.0.2",
