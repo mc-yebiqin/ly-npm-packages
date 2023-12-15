@@ -33,9 +33,9 @@ function rgbToHex(rgb: any) {
  */
 function interpolateColor(color1: any, color2: any, weight: number) {
   return {
-    r: Math.round(color1.r + (color2.r - color1.r) * weight),
-    g: Math.round(color1.g + (color2.g - color1.g) * weight),
-    b: Math.round(color1.b + (color2.b - color1.b) * weight),
+    r: Math.ceil(color1.r + (color2.r - color1.r) * weight),
+    g: Math.ceil(color1.g + (color2.g - color1.g) * weight),
+    b: Math.ceil(color1.b + (color2.b - color1.b) * weight),
   };
 }
 
@@ -77,11 +77,11 @@ export function generateColorPalette(config: {
     if (weight <= baseWeight) {
       startColor = { r: 255, g: 255, b: 255 };
       endColor = baseRGB;
-      colorWeight = weight / baseWeight;
+      colorWeight = Math.floor((weight / baseWeight) * 100) / 100;
     } else {
       startColor = baseRGB;
       endColor = { r: 0, g: 0, b: 0 };
-      colorWeight = (weight - baseWeight) / (1 - baseWeight);
+      colorWeight = Math.ceil(((weight - baseWeight) / (1 - baseWeight)) * 100) / 100;
     }
 
     // 插值计算得到最终颜色
