@@ -2,11 +2,10 @@ import { generateColorPalette } from "./generator";
 
 export const defaultThemeSpecs = {
   color: {
-    red: generateColorPalette({ baseColor: "#f5222d" }),
-    green: generateColorPalette({ baseColor: "#52c41a" }),
-    blue: generateColorPalette({ baseColor: "#1890ff" }),
-    orange: generateColorPalette({ baseColor: "#faad14" }),
-    yellow: generateColorPalette({ baseColor: "#fadb14" }),
+    red: generateColorPalette({ baseColor: "#e61a1a" }),
+    green: generateColorPalette({ baseColor: "#29d680" }),
+    blue: generateColorPalette({ baseColor: "#0080ff" }),
+    orange: generateColorPalette({ baseColor: "#f9a806" }),
     gray: generateColorPalette({ baseColor: "#bfbfbf" }),
   },
   padding: {

@@ -24,11 +24,7 @@ const Box = (props: BoxProps) => {
   );
 };
 
-const UserItem = () => {
-  const [active, setActive] = useState(false);
-
-  const handleClickEvt = () => setActive(!active);
-
+const UserItem = ({ active }: any) => {
   return (
     <Box
       css={{
@@ -43,7 +39,6 @@ const UserItem = () => {
         borderStyle: "solid",
         borderColor: active ? design.color.blue[30] : "transparent",
       }}
-      onClick={handleClickEvt}
     >
       <Box
         css={{
@@ -75,6 +70,10 @@ const UserItem = () => {
 };
 
 function HomePage() {
+  const [active, setActive] = useState(false);
+
+  const handleClickEvt = () => setActive(!active);
+
   return (
     <Box
       css={{
@@ -85,9 +84,10 @@ function HomePage() {
         overflowX: "hidden",
         flexDirection: "column",
       }}
+      onClick={handleClickEvt}
     >
       {myArray.map((value, index) => (
-        <UserItem key={index} />
+        <UserItem key={index} active={active} />
       ))}
     </Box>
   );

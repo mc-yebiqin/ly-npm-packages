@@ -1,0 +1,44 @@
+* {
+  box-sizing: border-box;
+}
+
+:where(:root) {
+  font-size: 14px;
+  line-height: 1.5em;
+  font-weight: 400;
+  font-family: Inter, Avenir, Helvetica, Arial, sans-serif;
+}
+
+:where(p, h1, h2, h3, h4, h5, h6, ol, ul, pre, code, input, blockquote) {
+  margin: 0px;
+  padding: 0px;
+}
+
+:where(a) {
+  color: inherit;
+  font-weight: 500;
+  text-decoration: inherit;
+}
+
+html > :where(body) {
+  margin: 0;
+  overflow: hidden;
+  width: 100vw;
+  height: 100vh;
+  min-width: 320px;
+  min-height: 100vh;
+  max-width: 100vw;
+  max-height: 100vh;
+}
+
+:where(#root) {
+  width: 100%;
+  height: 100%;
+}
+
+:where(input) {
+  outline: none;
+  border-width: 1px;
+  border-color: rgba(0, 0, 0, 0.1);
+  border-radius: 4px;
+}
