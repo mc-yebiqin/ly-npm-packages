@@ -1,3 +1,4 @@
+"use client";
 import { defaultThemeSpecs } from "./specs";
 import { flattenTokens } from "../utilities";
 

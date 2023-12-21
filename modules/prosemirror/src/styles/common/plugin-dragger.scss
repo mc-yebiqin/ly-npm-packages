@@ -1,0 +1,13 @@
+.block_draggable {
+  opacity: 0.25;
+}
+
+.dragger_divider {
+  top: 0px;
+  left: 0px;
+  z-index: 8;
+  position: absolute;
+  height: 2px;
+  border-radius: 2px;
+  background-color: var(--color-blue-60);
+}

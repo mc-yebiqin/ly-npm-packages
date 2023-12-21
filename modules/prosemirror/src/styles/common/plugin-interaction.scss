@@ -1,0 +1,28 @@
+.block_empty:hover {
+  .block_content::after {
+    opacity: 1;
+    content: attr(data-hovered);
+  }
+}
+
+// 1.编辑器处于空内容状态时，直接长显节点的提示占位符，提示用户输入内容
+// 2.否则只有编辑器处于聚焦状态时，如果光标聚焦在某个空内容的节点上，才显示提示占位符
+.editor_empty,
+.editor_focused {
+  .block_empty.block_focused {
+    .block_content::after {
+      opacity: 1;
+      content: attr(data-focused);
+      text-transform: none;
+    }
+  }
+}
+
+.block_selected_block {
+  border-color: var(--color-blue-60);
+  background-color: var(--color-blue-5);
+  ::selection {
+    color: inherit;
+    background-color: inherit;
+  }
+}

@@ -1,0 +1,17 @@
+.toolbar_container {
+  top: calc(-40px - 12px);
+  left: 0px;
+  right: 0px;
+  margin: auto;
+  position: absolute;
+  width: max-content;
+  height: 40px;
+  padding: 4px;
+  box-shadow: 0px 2px 15px rgba(0, 0, 0, 0.2);
+  line-height: normal;
+  will-change: transform;
+  border-radius: 6px;
+  background-color: white;
+  display: flex;
+  align-items: center;
+}

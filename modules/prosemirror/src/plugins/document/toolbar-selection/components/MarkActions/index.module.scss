@@ -1,0 +1,83 @@
+.mark_actions {
+  gap: 3px;
+  display: flex;
+  align-items: center;
+  .action_item {
+    gap: 12px;
+    height: 32px;
+    cursor: pointer;
+    display: flex;
+    padding: 0px 8px;
+    align-items: center;
+    border-radius: 4px;
+
+    .action_icon {
+      flex: none;
+      height: 24px;
+      min-width: 24px;
+    }
+
+    &:hover {
+      background-color: #efefef;
+    }
+
+    &[data-active="true"] {
+      background-color: #efefef;
+    }
+  }
+}
+
+.color_overlay {
+  gap: 12px;
+  width: 220px;
+  display: flex;
+  flex-direction: column;
+
+  .color_group {
+    gap: 4px;
+    display: flex;
+    flex-direction: column;
+    .group_title {
+      font-size: 12px;
+    }
+
+    .group_actions {
+      gap: 4px;
+      display: flex;
+      flex-wrap: wrap;
+      .color_action {
+        width: 24px;
+        height: 24px;
+        cursor: pointer;
+        transition: all 0.15s;
+        border-width: 1px;
+        border-style: solid;
+        border-radius: 4px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        &:hover {
+          outline: 2px solid rgba(0, 0, 255, 0.5);
+          border-color: white !important;
+        }
+      }
+
+      &[data-group="font"] {
+        .color_action {
+          border-color: #cfcfcf;
+          &::after {
+            display: inline;
+            content: "A";
+          }
+        }
+      }
+
+      &[data-group="background"] {
+      }
+    }
+  }
+
+  .color_reset {
+    cursor: pointer;
+  }
+}

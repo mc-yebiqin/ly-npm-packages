@@ -1,0 +1,83 @@
+.block_handler {
+  top: 0px;
+  left: -40px;
+  bottom: 0px;
+  position: absolute;
+  width: 40px;
+  opacity: 0;
+  padding-right: 3px;
+
+  .handle_container {
+    width: 100%;
+    height: 30px;
+    display: flex;
+    position: relative;
+    align-items: center;
+    justify-content: end;
+    .handle_item {
+      height: 20px;
+      cursor: pointer;
+      display: none;
+      border-radius: 4px;
+
+      &:hover {
+        background-color: rebeccapurple;
+      }
+
+      & > svg {
+        pointer-events: none;
+      }
+    }
+
+    .handle_dragger {
+      width: 16px;
+      padding: 2px 0px;
+    }
+
+    .handle_creator {
+      width: 20px;
+      padding: 2px;
+    }
+  }
+}
+
+// 节点控件样式控制
+.block_item {
+  &[type="ai_block"] {
+    // AI Block 如果没有激活，则只显示容器控件
+    &:not(.block_active) {
+      .block_handler {
+        visibility: hidden;
+      }
+
+      & > .block_handler {
+        visibility: visible;
+      }
+    }
+
+    // AI Block 处于激活状态时，只显示子节点的控件
+    &.block_active > .block_handler {
+      visibility: hidden;
+    }
+  }
+
+  // 激活悬浮节点的把柄控件
+  &:hover > .block_handler {
+    opacity: 1;
+    .handle_dragger {
+      display: block;
+    }
+  }
+}
+
+// 只有编辑器处于聚焦状态时，当光标聚焦在某个空内容的节点上时，才会显示节点的把柄控件
+.editor_focused {
+  .block_empty.block_focused {
+    & > .block_handler {
+      opacity: 1;
+      .handle_creator {
+        display: block;
+      }
+    }
+  }
+}

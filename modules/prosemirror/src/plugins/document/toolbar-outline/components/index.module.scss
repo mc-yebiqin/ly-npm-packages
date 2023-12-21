@@ -1,0 +1,46 @@
+.outline_plugin {
+  top: 0px;
+  left: 0px;
+  bottom: 0px;
+  position: absolute;
+  pointer-events: none;
+}
+
+.outline_container {
+  top: 8px;
+  left: 0px;
+  position: sticky;
+  padding: 24px 16px;
+  max-width: 210px;
+  border-radius: 6px;
+  pointer-events: all;
+  backdrop-filter: blur(5px);
+  background-color: rgba(255, 255, 255, 0.1);
+  gap: 8px;
+  display: flex;
+  flex-direction: column;
+
+  .outline_item {
+    cursor: pointer;
+    font-weight: 500;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+
+    &:hover {
+      color: blue;
+    }
+
+    &[data-level="1"] {
+      margin-left: 0em;
+    }
+
+    &[data-level="2"] {
+      margin-left: 2em;
+    }
+
+    &[data-level="3"] {
+      margin-left: 4em;
+    }
+  }
+}

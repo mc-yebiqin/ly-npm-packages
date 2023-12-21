@@ -1,0 +1,30 @@
+.block_item[type="ai_block"] {
+  padding: 0px;
+  .ai_container {
+    position: relative;
+    border-radius: var(--radius-75, 6px);
+    .block_content {
+      .block_item {
+        padding-left: 4.5px;
+        padding-right: 4.5px;
+      }
+    }
+  }
+}
+
+// 节点控件样式控制
+.block_item[type="ai_block"] {
+  &:hover {
+    border-color: var(--color-blue-30);
+    .toolbar_container {
+      display: flex;
+    }
+  }
+
+  &.block_active {
+    border-color: var(--color-blue-60);
+    .toolbar_container {
+      display: flex;
+    }
+  }
+}

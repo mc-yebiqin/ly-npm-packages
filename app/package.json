@@ -11,8 +11,9 @@
   "dependencies": {
     "next": "13.4.8",
     "eslint": "8.44.0",
-    "eslint-config-next": "13.4.8",
     "highlight.js": "^11.8.0",
+    "eslint-config-next": "13.4.8",
+    "@ly/prosemirror": "workspace:*",
     "laoye-react-hooks": "workspace:*",
     "laoye-prosemirror-dev": "workspace:*",
     "laoye-prosemirror-utils": "workspace:*",

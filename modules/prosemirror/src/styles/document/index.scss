@@ -1,0 +1,9 @@
+.document_mounted {
+  width: 100%;
+  position: relative;
+  background-color: white;
+  .document_editor {
+    padding: 24px 48px;
+    position: relative;
+  }
+}
