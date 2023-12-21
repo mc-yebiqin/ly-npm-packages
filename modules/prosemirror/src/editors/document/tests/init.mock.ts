@@ -28,7 +28,7 @@ const initMockData = () => {
             content: [
               {
                 type: "text",
-                text: "我是测试内容66666",
+                text: "我是 Ai_Block 子内容！！！！",
               },
             ],
           },
@@ -37,7 +37,7 @@ const initMockData = () => {
             content: [
               {
                 type: "text",
-                text: "我是测试内容66666",
+                text: "我是 Ai_Block 子内容！！！！",
               },
             ],
           },
@@ -69,7 +69,7 @@ const initMockData = () => {
             content: [
               {
                 type: "text",
-                text: "我是测试内容66666",
+                text: "我是 Ai_Block 子内容====",
               },
             ],
           },
@@ -78,7 +78,7 @@ const initMockData = () => {
             content: [
               {
                 type: "text",
-                text: "我是测试内容66666",
+                text: "我是 Ai_Block 子内容====",
               },
             ],
           },
@@ -110,7 +110,7 @@ const initMockData = () => {
             content: [
               {
                 type: "text",
-                text: "我是测试内容66666",
+                text: "我是 Ai_Block 子内容？？？",
               },
             ],
           },
@@ -119,7 +119,7 @@ const initMockData = () => {
             content: [
               {
                 type: "text",
-                text: "我是测试内容66666",
+                text: "我是 Ai_Block 子内容？？？",
               },
             ],
           },
