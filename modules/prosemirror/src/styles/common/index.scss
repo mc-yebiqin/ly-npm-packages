@@ -4,7 +4,7 @@
 @import "./plugin-interaction.scss";
 
 :where(.block_item) {
-  border: 1px solid transparent;
+  border: 1.5px solid transparent;
   padding: 6px;
   position: relative;
   transition: border-color 0.15s;

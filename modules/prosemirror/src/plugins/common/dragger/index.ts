@@ -5,6 +5,7 @@ import { EditorView } from "prosemirror-view";
 import Divider from "./Divider";
 import { Node, Slice } from "prosemirror-model";
 import { dropPoint } from "prosemirror-transform";
+import { PMStyles } from "../../../styles";
 
 /**
  * ProseMirror 拖拽控制插件
@@ -12,11 +13,13 @@ import { dropPoint } from "prosemirror-transform";
  * - 主要功能包括在指定位置开始拖拽，确定拖拽目标位置，以及完成拖拽操作。
  */
 export function commonDraggerPlugin() {
-  // 定义一些变量，用于缓存拖拽过程中的数据
   /** 缓存光标的落点 */
   let dropPos: number = -1;
   /** 缓存的拖拽数据 */
   let dragging: { node: Node; slice: Slice } | null = null;
+  /** 缓存落点的容器 */
+  let dropBlock: HTMLElement | null = null;
+
   /** 拖拽线条的实例对象 */
   const pluginView = PMUtils.createPluginViewer(Divider);
 
@@ -26,11 +29,16 @@ export function commonDraggerPlugin() {
    * @returns {boolean} 拖拽完成状态
    */
   const onDragComplete = () => {
+    // 将拖拽线条的位置设为 null，表示隐藏
+    pluginView.updateOffset(null);
+    //
+    dropBlock?.classList.remove(PMStyles.block_drop);
+
     // 将缓存的数据重置为初始值
     dropPos = -1;
     dragging = null;
-    // 将拖拽线条的位置设为 null，表示隐藏
-    pluginView.updateOffset(null);
+    dropBlock = null;
+
     // 返回 true，表示拖拽操作已经完成
     return true;
   };
@@ -98,14 +106,12 @@ export function commonDraggerPlugin() {
               // 计算出一个合适的落点位置，表示拖拽内容可以插入的位置
               // 如果没有合适的位置，返回 -1
               dropPos = dropPoint(view.state.doc, cursorPos.pos, dragging.slice) ?? -1;
-
               // 如果落点位置大于 -1，说明有合适的位置
               if (dropPos > -1) {
                 // 根据落点位置，获取编辑器中对应的坐标信息，表示落点的左上角的坐标
                 const { left: cLeft, top: cTop } = view.coordsAtPos(dropPos);
                 // 获取编辑器的 DOM 元素的边界信息，表示编辑器的左上角的坐标
                 const { left: eLeft, top: eTop } = view.dom.getBoundingClientRect();
-
                 // 计算出落点的相对偏移量，表示落点相对于编辑器的左上角的偏移量
                 const offsetX = cLeft - eLeft;
                 const offsetY = cTop - eTop;
@@ -113,16 +119,26 @@ export function commonDraggerPlugin() {
                 const width = `calc(100% - ${offsetX}px)`;
                 // 调用拖拽线条的实例对象的方法，更新拖拽线条的位置和宽度
                 pluginView.updateOffset({ x: offsetX, y: offsetY, width });
-                // 返回 true，表示拖拽进入事件已经处理完毕
-                return true;
+
+                // 获取落点位置处的上下文信息
+                const resolve = view.state.doc.resolve(dropPos);
+                const parentPos = resolve.pos - resolve.parentOffset - 1;
+                const parentDOM = view.nodeDOM(parentPos) as HTMLElement | null;
+                if (dropBlock !== parentDOM) {
+                  parentDOM?.classList.add(PMStyles.block_drop);
+                  dropBlock?.classList.remove(PMStyles.block_drop);
+                  dropBlock = parentDOM;
+                }
+
+                return true; // 返回 true，表示拖拽进入事件已经处理完毕
               }
             }
           }
+
           // 如果拖拽数据的缓存对象不存在，或者位置信息不存在，或者落点位置小于 -1
           // 调用拖拽线条的实例对象的方法，将拖拽线条的位置设为 null，表示隐藏
           pluginView.updateOffset(null);
-          // 返回 true，表示拖拽进入事件已经处理完毕
-          return true;
+          return true; // 返回 true，表示拖拽进入事件已经处理完毕
         },
         dragleave(view, event: any) {
           // 如果拖拽数据的缓存对象不存在，直接返回 true，表示拖拽离开事件已经处理完毕
