@@ -14,10 +14,12 @@ import {
   PMStyles,
   assembleNodeViews,
   commonDraggerPlugin,
+  commonKeymapPlugin,
   commonUIInteractionPlugin,
   documentController,
   documentDomain,
 } from "@ly/prosemirror";
+import { initDocumentKeymap } from "./keymap";
 
 interface EditorProps extends HTMLAttributes<HTMLDivElement> {}
 
@@ -34,7 +36,13 @@ export const DocumentEditor = memo((props: EditorProps) => {
     const editorState = EditorState.create({
       doc: schema.nodeFromJSON(doc),
       schema: schema,
-      plugins: [documentController(), commonDraggerPlugin(), commonUIInteractionPlugin()],
+      plugins: [
+        history(),
+        commonKeymapPlugin(initDocumentKeymap()),
+        commonDraggerPlugin(),
+        commonUIInteractionPlugin(),
+        documentController(),
+      ],
     });
 
     const editorView = new EditorView(mountedRef.current, {

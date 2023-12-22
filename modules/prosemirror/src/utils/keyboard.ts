@@ -1,5 +1,5 @@
 import { Command } from "prosemirror-state";
-import { KeymapCommand } from "../types";
+import { KeymapCommand } from "../shared";
 
 /**
  * 检测当前操作系统是否为 macOS。

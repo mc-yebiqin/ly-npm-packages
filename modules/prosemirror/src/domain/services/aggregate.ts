@@ -11,7 +11,6 @@ export const createAggregateSlice: StateCreator<DocumentSlice, [], [], Aggregate
   get
 ) => ({
   destroyDocument: () => {
-    get().destroyDocument();
     get().destroyCommonSlice();
     get().destroyEditorSlice();
   },

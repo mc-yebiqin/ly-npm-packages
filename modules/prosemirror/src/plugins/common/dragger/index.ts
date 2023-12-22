@@ -1,101 +1,168 @@
 import PMUtils from "laoye-prosemirror-utils";
-import { Plugin } from "prosemirror-state";
+import { NodeSelection, Plugin, TextSelection } from "prosemirror-state";
 import { EditorView } from "prosemirror-view";
 
 import Divider from "./Divider";
+import { Node, Slice } from "prosemirror-model";
+import { dropPoint } from "prosemirror-transform";
 
 /**
- * 创建通用拖拽功能显示插件
- *
- * 该插件负责处理拖拽行为，并在拖拽时显示拖拽线条的指示器。通过在拖拽的起始和结束位置添加
- * 一个自定义的装饰元素，实现了拖拽线条的显示效果。此插件适用于需要在编辑器中实现拖拽
- * 交互并提供视觉指示的场景。
- *
- * 职责：
- * - 捕获编辑器中的拖拽行为。
- * - 在拖拽的起始和结束位置添加拖拽线条的装饰。
- * - 为拖拽线条指示器提供样式和定制支持。
- *
- * 业务场景示例：
- * 在富文本编辑器中，用户可能需要拖拽文本、图像或其他内容。该插件可以根据拖拽事件，
- * 在编辑器中显示拖拽线条的指示器，以提示用户正在进行拖拽操作。这在布局调整、内容排序
- * 或拖拽交互的场景中特别有用。
+ * ProseMirror 拖拽控制插件
+ * - 该插件用于在 ProseMirror 编辑器中实现拖拽功能。
+ * - 主要功能包括在指定位置开始拖拽，确定拖拽目标位置，以及完成拖拽操作。
  */
-
 export function commonDraggerPlugin() {
+  // 定义一些变量，用于缓存拖拽过程中的数据
   /** 缓存光标的落点 */
-  let dropPos: number | null = null;
-  /** 缓存光标的坐标 */
-  let dropCoords = { x: 0, y: 0 };
+  let dropPos: number = -1;
+  /** 缓存的拖拽数据 */
+  let dragging: { node: Node; slice: Slice } | null = null;
+  /** 拖拽线条的实例对象 */
+  const pluginView = PMUtils.createPluginViewer(Divider);
 
-  const pluginViewer = PMUtils.createPluginViewer(Divider);
-
-  /** 修正拖拽落单的位置 */
-  const correctDropPosition = (view: EditorView, { x, y }: DragEvent) => {
-    // 光标位置未发生改变，不做处理
-    const cursorChanged = dropCoords.x !== x || dropCoords.y !== y;
-    if (!cursorChanged) return null;
-    dropCoords = { x, y };
-
-    // 落点坐标不存在节点位置，终止后续操作
-    const cursorPos = view.posAtCoords({ top: y, left: x })?.pos;
-    if (!cursorPos) return null;
-
-    // 访问落点位置所处的上下文信息，根据结构修正最终的落点位置
-    const context = view.state.doc.resolve(cursorPos);
-    const { parent, parentOffset } = context;
-    if (!parent.isTextblock) return null; // 非文本容器不允许拖拽，终止后续操作
-
-    // 如果落点位置小于文本内容的一半，则插入在该节点的上方，反之则在下方
-    const revisePos =
-      parentOffset < parent.nodeSize / 2 ? context.before() : context.after();
-    const reviseOffset = (parent.attrs.indent || 0) * 24;
-    if (revisePos === dropPos) return null; // 修正后的位置没有发生改变，终止无意义的处理
-
-    // 更新缓存的位置后，返回数据供后续处理
-    dropPos = revisePos;
-    return { pos: revisePos, offset: reviseOffset };
-  };
-
-  /** 隐藏拖拽线条 */
-  const hiddenDragLine = () => {
-    dropPos = null;
-    pluginViewer.updateOffset(null);
+  /**
+   * 完成拖拽操作时的处理函数
+   * 重置缓存的状态，更新拖拽线条的位置
+   * @returns {boolean} 拖拽完成状态
+   */
+  const onDragComplete = () => {
+    // 将缓存的数据重置为初始值
+    dropPos = -1;
+    dragging = null;
+    // 将拖拽线条的位置设为 null，表示隐藏
+    pluginView.updateOffset(null);
+    // 返回 true，表示拖拽操作已经完成
+    return true;
   };
 
   return new Plugin({
     view(view) {
-      pluginViewer.mount(view.dom.parentElement);
+      pluginView.mount(view.dom.parentElement);
       return {
-        destroy() {
-          pluginViewer?.unmount();
-        },
+        destroy: () => pluginView?.unmount(),
       };
     },
+    // 定义插件的属性，用于处理拖拽相关的 DOM 事件
     props: {
       handleDOMEvents: {
-        dragover: (view: EditorView, event: DragEvent) => {
-          const reviseData = correctDropPosition(view, event);
-          if (!reviseData) return; // 修正数据不存在，终止处理
+        dragstart(view, event) {
+          // 调用编辑器的内部方法，完成鼠标按下的操作，这里不需要关心具体的实现，只需要知道这是必要的步骤
+          view.input?.mouseDown?.done();
 
-          const { pos, offset } = reviseData;
-          const { left: cursorLeft, top: cursorTop } = view.coordsAtPos(pos);
-          const { left: editorLeft, top: editorTop } = view.dom.getBoundingClientRect();
+          // 根据鼠标的坐标，获取编辑器中对应的位置信息
+          const cursorPos = view.posAtCoords({ left: event.clientX, top: event.clientY });
+          // 如果位置信息存在，说明鼠标在编辑器的有效范围内
+          if (cursorPos) {
+            // 获取编辑器的当前选区，强制转换为节点选区类型
+            let sel = view.state.selection as NodeSelection;
+            // 获取位置信息中的 inside 属性，表示鼠标所在的节点的起始位置
+            const nodeStart = cursorPos.inside;
 
-          const width = `calc(100% - ${offset}px)`;
-          const offsetX = cursorLeft - editorLeft;
-          const offsetY = cursorTop - editorTop;
-          pluginViewer.updateOffset({ x: offsetX, y: offsetY, width });
+            // 判断当前选区是否是节点选区，并且选区的起始位置是否和鼠标所在的节点的起始位置一致
+            // 如果是，说明当前选区是有效的，不需要修正
+            const isSelValid = sel instanceof NodeSelection && sel.from === nodeStart;
+            // 如果不是，说明当前选区是无效的，需要修正
+            if (!isSelValid) {
+              // 获取编辑器的状态和分发方法
+              const { state, dispatch } = view;
+              // 获取编辑器的事务和文档对象
+              const { tr, doc } = state;
+              // 根据鼠标所在的节点的起始位置，创建一个新的节点选区
+              sel = NodeSelection.create(doc, nodeStart);
+              // 用分发方法，将事务中的选区设置为新的节点选区
+              dispatch(tr.setSelection(sel));
+            }
+
+            // 获取当前选区节点的 slice 数据，表示选区节点的内容和结构
+            // 并将其和选区节点一起，组装到拖拽数据的缓存对象中
+            const slice = sel.content();
+            dragging = { slice, node: sel.node };
+          } else {
+            // 如果位置信息不存在，说明鼠标在编辑器的无效范围内
+            // 阻止默认的拖拽行为，不做任何处理
+            event.preventDefault();
+          }
+          // 返回 true，表示拖拽开始事件已经处理完毕
+          return true;
         },
-        drop() {
-          hiddenDragLine();
-        },
-        dragend() {
-          hiddenDragLine();
+        // 定义拖拽进入时的处理函数
+        dragenter: (view: EditorView, event: DragEvent) => {
+          if (dragging) {
+            // 获取鼠标的坐标
+            const { clientX, clientY } = event;
+            // 根据鼠标的坐标，获取编辑器中对应的位置信息
+            const cursorPos = view.posAtCoords({ left: clientX, top: clientY });
+            // 如果位置信息存在，说明鼠标在编辑器的有效范围内
+            if (cursorPos) {
+              // 调用一个外部的函数，根据编辑器的文档，鼠标所在的位置，和拖拽数据的缓存对象中的 slice 数据
+              // 计算出一个合适的落点位置，表示拖拽内容可以插入的位置
+              // 如果没有合适的位置，返回 -1
+              dropPos = dropPoint(view.state.doc, cursorPos.pos, dragging.slice) ?? -1;
+
+              // 如果落点位置大于 -1，说明有合适的位置
+              if (dropPos > -1) {
+                // 根据落点位置，获取编辑器中对应的坐标信息，表示落点的左上角的坐标
+                const { left: cLeft, top: cTop } = view.coordsAtPos(dropPos);
+                // 获取编辑器的 DOM 元素的边界信息，表示编辑器的左上角的坐标
+                const { left: eLeft, top: eTop } = view.dom.getBoundingClientRect();
+
+                // 计算出落点的相对偏移量，表示落点相对于编辑器的左上角的偏移量
+                const offsetX = cLeft - eLeft;
+                const offsetY = cTop - eTop;
+                // 计算出拖拽线条的宽度，表示拖拽线条相对于编辑器的宽度
+                const width = `calc(100% - ${offsetX}px)`;
+                // 调用拖拽线条的实例对象的方法，更新拖拽线条的位置和宽度
+                pluginView.updateOffset({ x: offsetX, y: offsetY, width });
+                // 返回 true，表示拖拽进入事件已经处理完毕
+                return true;
+              }
+            }
+          }
+          // 如果拖拽数据的缓存对象不存在，或者位置信息不存在，或者落点位置小于 -1
+          // 调用拖拽线条的实例对象的方法，将拖拽线条的位置设为 null，表示隐藏
+          pluginView.updateOffset(null);
+          // 返回 true，表示拖拽进入事件已经处理完毕
+          return true;
         },
         dragleave(view, event: any) {
-          // 如果移出到容器之外，则隐藏掉工具条
-          if (!view.dom.parentElement?.contains(event.fromElement)) hiddenDragLine();
+          // 如果拖拽数据的缓存对象不存在，直接返回 true，表示拖拽离开事件已经处理完毕
+          if (!dragging) return true;
+          // 如果拖拽数据的缓存对象存在，判断事件的来源元素是否包含在编辑器的父元素中
+          // 如果不包含，说明鼠标已经离开了编辑器的范围
+          if (!view.dom.parentElement?.contains(event.fromElement)) {
+            // 调用拖拽线条的实例对象的方法，将拖拽线条的位置设为 null，表示隐藏
+            pluginView.updateOffset(null);
+          }
+          // 返回 true，表示拖拽离开事件已经处理完毕
+          return true;
+        },
+        drop(view) {
+          // 如果落点位置大于 -1，且拖拽数据的缓存对象存在，说明有有效的拖拽内容和位置
+          if (dropPos > -1 && dragging) {
+            // 获取拖拽数据的缓存对象中的 slice 数据，表示拖拽内容的内容和结构
+            const { content } = dragging.slice;
+            // 获取编辑器的状态和分发方法
+            const { state, dispatch } = view;
+
+            // 创建一个新的事务，用于删除当前的选区
+            let tr = state.tr.deleteSelection();
+
+            // 根据事务的映射，将落点位置映射到新的文档中，表示拖拽内容可以插入的位置
+            let insertPos = tr.mapping.map(dropPos);
+            // 在插入位置处，将事务中的文档插入拖拽内容
+            tr = tr.insert(insertPos, content);
+
+            // 计算出修正后的位置，表示拖拽内容的末尾位置
+            const selectPos = insertPos + content.size - 1;
+            // 将事务中的选区设置为拖拽内容的末尾位置，表示选中拖拽内容
+            tr = tr.setSelection(TextSelection.create(tr.doc, selectPos));
+            // 用分发方法，将事务应用到编辑器中，并滚动到视图中
+            dispatch(tr.scrollIntoView());
+          }
+          return onDragComplete();
+        },
+        dragend() {
+          return onDragComplete();
         },
       },
     },

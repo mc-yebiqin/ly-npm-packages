@@ -39,8 +39,8 @@ export function commonUIInteractionPlugin() {
           // 如果选择区域为空（即用户只是将光标放在了一个块级元素中）,则为该块级元素添加一个表示“已聚焦”的装饰器
           if (selection instanceof TextSelection) {
             // 顶级节点之后已经没有位置可以获取了
-            const from = $from.before();
-            const to = $from.after();
+            const from = $from.depth ? $from.before() : $from.pos;
+            const to = $to.depth ? $to.after() : $to.pos;
             // 单节点选择所以添加聚焦状态类名
             decors.push(Decoration.node(from, to, { class: PMStyles.block_focused }));
           }

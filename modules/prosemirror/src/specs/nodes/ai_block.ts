@@ -1,5 +1,6 @@
 import { GroupSpecEnum, NodeTypeEnum } from "../../shared";
 import { AIBlock, NodeFactory, TemplateNodeView } from "../../core";
+import { Node } from "prosemirror-model";
 
 export const ai_block = NodeFactory.Block({
   key: NodeTypeEnum.AI_Block,
