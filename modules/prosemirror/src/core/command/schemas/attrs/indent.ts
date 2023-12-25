@@ -57,11 +57,6 @@ class IndentCommand extends UICommand {
     // 如果当前缩进已经达到最大级别，直接返回原始事务
     if (indent >= MAX_INDENT_LEVEL) return tr;
 
-    console.log(
-      "%c >>>>> indent + 1 -62",
-      "font-size:13px; background:pink; color:#000;",
-      indent + 1
-    );
     // 增加缩进级别并更新节点属性
     return tr.setNodeAttribute(pos, "indent", indent + 1);
   };
