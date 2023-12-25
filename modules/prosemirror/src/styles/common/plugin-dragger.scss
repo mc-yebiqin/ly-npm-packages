@@ -1,16 +1,32 @@
 .block_draggable {
-  opacity: 0.25;
+  opacity: 0.3;
 }
 
 .dragger_divider {
   top: 0px;
-  left: 0px;
+  left: 40px;
   z-index: 8;
+  width: calc(100% - 80px);
   position: absolute;
-  height: 1.5px;
-  margin-left: 4px;
-  margin-right: 4px;
-  border-radius: 2px;
+  align-items: center;
+  padding-left: 4px;
+  padding-right: 4px;
   pointer-events: none;
-  background-color: var(--color-blue-60);
+
+  .dragger_line {
+    height: 2px;
+    border-radius: 2px;
+    background-color: var(--color-blue-60);
+    &:last-child {
+      flex: 1;
+      width: 0px;
+    }
+  }
+
+  &[data-visible="true"] {
+    display: flex;
+  }
+  &[data-visible="false"] {
+    display: none;
+  }
 }

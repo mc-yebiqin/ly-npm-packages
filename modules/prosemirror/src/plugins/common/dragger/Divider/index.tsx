@@ -1,34 +1,44 @@
-import { useMemoizedFn } from "ahooks";
 import React, { forwardRef, useImperativeHandle, useState } from "react";
+import { useMemoizedFn } from "ahooks";
 
+import { Node } from "prosemirror-model";
 import { PMStyles } from "@ly/prosemirror";
 
-type OffsetInfo = {
-  x: number;
+type DragInfo = {
   y: number;
-  width: string;
+  node: Node;
 };
 
 type ForwardRef = {
-  updateOffset: (data: OffsetInfo | null) => void;
+  updateVisible: (data: DragInfo | null) => void;
 };
 
 const Divider = forwardRef<ForwardRef, any>((props, ref) => {
-  const [offset, setOffset] = useState<OffsetInfo | null>(null);
+  const [dragInfo, setDragInfo] = useState<DragInfo | null>(null);
 
-  const updateOffset = useMemoizedFn((data: OffsetInfo | null) => setOffset(data));
+  const indentLines = (dragInfo?.node.attrs.indent ?? 0) + 1;
 
-  useImperativeHandle(ref, () => ({ updateOffset }));
+  const updateVisible = useMemoizedFn((data: DragInfo | null) => setDragInfo(data));
+
+  useImperativeHandle(ref, () => ({ updateVisible }));
 
   return (
     <div
-      style={{
-        width: offset?.width,
-        display: offset ? "block" : "none",
-        transform: `translate(${offset?.x}px, ${offset?.y}px)`,
-      }}
       className={PMStyles.dragger_divider}
-    />
+      data-visible={Boolean(dragInfo)}
+      style={{ transform: `translateY(${dragInfo?.y}px)` }}
+    >
+      {Array.from<number>({ length: indentLines }).map((_, index) => {
+        return (
+          <div
+            key={index}
+            className={PMStyles.dragger_line}
+            style={{ width: "2em", opacity: (index + 1) / indentLines }}
+          />
+        );
+      })}
+    </div>
   );
 });
+
 export default Divider;

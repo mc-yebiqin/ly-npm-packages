@@ -30,7 +30,7 @@ export function commonDraggerPlugin() {
    */
   const onDragComplete = () => {
     // 将拖拽线条的位置设为 null，表示隐藏
-    pluginView.updateOffset(null);
+    pluginView.updateVisible(null);
     //
     dropBlock?.classList.remove(PMStyles.block_drop);
 
@@ -96,6 +96,8 @@ export function commonDraggerPlugin() {
         // 定义拖拽进入时的处理函数
         dragenter: (view: EditorView, event: DragEvent) => {
           if (dragging) {
+            // 获取拖拽的数据
+            const { node, slice } = dragging;
             // 获取鼠标的坐标
             const { clientX, clientY } = event;
             // 根据鼠标的坐标，获取编辑器中对应的位置信息
@@ -105,20 +107,17 @@ export function commonDraggerPlugin() {
               // 调用一个外部的函数，根据编辑器的文档，鼠标所在的位置，和拖拽数据的缓存对象中的 slice 数据
               // 计算出一个合适的落点位置，表示拖拽内容可以插入的位置
               // 如果没有合适的位置，返回 -1
-              dropPos = dropPoint(view.state.doc, cursorPos.pos, dragging.slice) ?? -1;
+              dropPos = dropPoint(view.state.doc, cursorPos.pos, slice) ?? -1;
               // 如果落点位置大于 -1，说明有合适的位置
               if (dropPos > -1) {
                 // 根据落点位置，获取编辑器中对应的坐标信息，表示落点的左上角的坐标
-                const { left: cLeft, top: cTop } = view.coordsAtPos(dropPos);
+                const { top: cTop } = view.coordsAtPos(dropPos);
                 // 获取编辑器的 DOM 元素的边界信息，表示编辑器的左上角的坐标
-                const { left: eLeft, top: eTop } = view.dom.getBoundingClientRect();
+                const { top: eTop } = view.dom.getBoundingClientRect();
                 // 计算出落点的相对偏移量，表示落点相对于编辑器的左上角的偏移量
-                const offsetX = cLeft - eLeft;
                 const offsetY = cTop - eTop;
-                // 计算出拖拽线条的宽度，表示拖拽线条相对于编辑器的宽度
-                const width = `calc(100% - ${offsetX}px)`;
                 // 调用拖拽线条的实例对象的方法，更新拖拽线条的位置和宽度
-                pluginView.updateOffset({ x: offsetX, y: offsetY, width });
+                pluginView.updateVisible({ y: offsetY, node });
 
                 // 获取落点位置处的上下文信息
                 const resolve = view.state.doc.resolve(dropPos);
@@ -137,7 +136,7 @@ export function commonDraggerPlugin() {
 
           // 如果拖拽数据的缓存对象不存在，或者位置信息不存在，或者落点位置小于 -1
           // 调用拖拽线条的实例对象的方法，将拖拽线条的位置设为 null，表示隐藏
-          pluginView.updateOffset(null);
+          pluginView.updateVisible(null);
           return true; // 返回 true，表示拖拽进入事件已经处理完毕
         },
         dragleave(view, event: any) {
@@ -147,7 +146,7 @@ export function commonDraggerPlugin() {
           // 如果不包含，说明鼠标已经离开了编辑器的范围
           if (!view.dom.parentElement?.contains(event.fromElement)) {
             // 调用拖拽线条的实例对象的方法，将拖拽线条的位置设为 null，表示隐藏
-            pluginView.updateOffset(null);
+            pluginView.updateVisible(null);
           }
           // 返回 true，表示拖拽离开事件已经处理完毕
           return true;
