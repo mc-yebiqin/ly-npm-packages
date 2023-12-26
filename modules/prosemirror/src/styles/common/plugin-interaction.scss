@@ -20,8 +20,11 @@
 
 .block_drop,
 .block_selected_block {
-  border-color: var(--color-blue-60);
   background-color: var(--color-blue-5);
+  &[type="ai_block"] {
+    border-color: var(--color-blue-60);
+  }
+
   ::selection {
     color: inherit;
     background-color: inherit;

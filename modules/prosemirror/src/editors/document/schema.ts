@@ -7,6 +7,7 @@ import {
   code,
   link,
   italic,
+  heading,
   comment,
   underline,
   ai_block,
@@ -19,14 +20,10 @@ const initDocumentSchema = () => {
   const nodes = {
     doc: documentDoc,
     text,
+    heading,
     ai_block,
     paragraph,
   };
-  console.log(
-    "%c >>>>> nodes -19",
-    "font-size:13px; background:pink; color:#000;",
-    nodes
-  );
 
   const marks = {
     bold,
@@ -40,7 +37,8 @@ const initDocumentSchema = () => {
     color_background,
   };
 
-  return new Schema({ nodes, marks });
+  const documentSchema = new Schema({ nodes, marks });
+  return documentSchema;
 };
 
 export default initDocumentSchema;
