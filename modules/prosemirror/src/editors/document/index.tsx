@@ -36,13 +36,13 @@ export const DocumentEditor = memo((props: EditorProps) => {
     const editorState = EditorState.create({
       doc: schema.nodeFromJSON(doc),
       schema: schema,
-      // plugins: [
-      //   history(),
-      //   commonKeymapPlugin(initDocumentKeymap()),
-      //   commonDraggerPlugin(),
-      //   commonUIInteractionPlugin(),
-      //   documentController(),
-      // ],
+      plugins: [
+        history(),
+        commonKeymapPlugin(initDocumentKeymap()),
+        commonDraggerPlugin(),
+        commonUIInteractionPlugin(),
+        documentController(),
+      ],
     });
 
     const editorView = new EditorView(mountedRef.current, {
